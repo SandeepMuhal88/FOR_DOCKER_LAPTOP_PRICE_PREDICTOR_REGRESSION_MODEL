@@ -1,3 +1,4 @@
 Data
+best_model.pth
 potato_model.pth
-potato_disease_model.h5
+.env
