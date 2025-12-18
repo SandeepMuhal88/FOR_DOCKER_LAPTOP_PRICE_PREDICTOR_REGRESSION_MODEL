@@ -20,10 +20,17 @@ class CNN(nn.Module):
 
             nn.Conv2d(64, 128, 3, padding=1),
             nn.BatchNorm2d(128),
-            nn.ReLU()
+            nn.ReLU(),
+            nn.MaxPool2d(2),   
         )
+
         self.gap = nn.AdaptiveAvgPool2d(1)
-        self.classifier = nn.Linear(128, num_classes)
+        self.classifier = nn.Sequential(
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(128, num_classes)
+        )
 
     def forward(self, x):
         x = self.features(x)
@@ -37,8 +44,8 @@ else:
     device = torch.device("cpu")
     
 def load_model():
-    model = CNN(3)
-    model.load_state_dict(torch.load("potato_model.pth", map_location=device))
+    model = CNN(15)
+    model.load_state_dict(torch.load("final_model.pth", map_location=device))
     model.eval()
     return model
 
@@ -56,5 +63,5 @@ def predict(model, image):
     outputs = model(img)
     _, predicted = torch.max(outputs, 1)
 
-    classes = ["Early Blight", "Late Blight", "Healthy"]
+    classes = ['Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy', 'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 'Tomato_Bacterial_spot', 'Tomato_Early_blight', 'Tomato_Late_blight', 'Tomato_Leaf_Mold', 'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites_Two_spotted_spider_mite', 'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus', 'Tomato__Tomato_mosaic_virus', 'Tomato_healthy']
     return classes[predicted.item()]
