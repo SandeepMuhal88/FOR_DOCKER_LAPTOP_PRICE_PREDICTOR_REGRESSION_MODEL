@@ -38,7 +38,7 @@ else:
     
 def load_model():
     model = CNN(3)
-    model.load_state_dict(torch.load("potato_model.pth", map_location=device))
+    model.load_state_dict(torch.load("best_model.pth", map_location=device))
     model.eval()
     return model
 
@@ -56,5 +56,5 @@ def predict(model, image):
     outputs = model(img)
     _, predicted = torch.max(outputs, 1)
 
-    classes = ["Early Blight", "Late Blight", "Healthy"]
+    classes = ['Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy']
     return classes[predicted.item()]
