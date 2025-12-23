@@ -1,4 +1,3 @@
 Data
-final_model.pth
 .env
-best_model.pth
+agriculture_model.pth
